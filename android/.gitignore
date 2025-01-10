@@ -1,0 +1,49 @@
+# Flutter-specific
+.flutter-plugins
+.flutter-plugins-dependencies
+.flutter-versions
+flutter_export_environment.sh
+
+# Android-specific
+android/.gradle
+android/app/build
+android/local.properties
+
+# iOS-specific
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/*.xcconfig
+ios/Flutter/App.framework
+ios/Flutter/engine
+ios/Flutter/Generated.xcconfig
+ios/Pods/
+ios/.symlinks/
+ios/.generated/
+
+# Web-specific
+web/.dart_tool/
+
+# Dart-specific
+**/build/
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+
+# VS Code-specific
+.vscode/
+
+# IDE-specific
+.idea/
+*.iml
+
+# macOS-specific
+*.DS_Store
+
+# Windows-specific
+windows/.vs/
+
+# Other generated files
+*.log
+*.tmp
+*.swp
