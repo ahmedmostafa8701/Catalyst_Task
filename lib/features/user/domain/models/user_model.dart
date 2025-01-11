@@ -36,4 +36,22 @@ class UserModel {
       'profile_image': profileImage,
     };
   }
+
+  UserModel copyWith({
+    int? id,
+    String? name,
+    String? email,
+    String? phone,
+    String? role,
+    String? profileImage,
+  }) {
+    return UserModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      phone: phone ?? this.phone,
+      role: role ?? this.role,
+      profileImage: profileImage ?? this.profileImage,
+    );
+  }
 }

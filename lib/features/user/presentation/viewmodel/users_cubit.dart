@@ -1,4 +1,5 @@
 import 'package:cataylst_task/features/user/domain/models/user_model.dart';
+import 'package:cataylst_task/features/user/domain/models/user_roles.dart';
 import 'package:cataylst_task/features/user/domain/repo/user_repo.dart';
 import 'package:cataylst_task/features/user/presentation/viewmodel/users_state.dart';
 import 'package:flutter/material.dart';
@@ -6,13 +7,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class UsersCubit extends Cubit<UsersState>{
   final UserRepo _userRepo;
   List<UserModel> _users = [];
+  TextEditingController spinnerController = TextEditingController();
   UsersCubit(this._userRepo): super(UsersInitial());
   void fetchUsers() async{
     emit(UsersLoading());
     try{
       var users = await _userRepo.fetchUsers();
       _users = users;
-      emit(UsersSuccess(users: users));
+      if (spinnerController.text.isNotEmpty && spinnerController.text.toLowerCase() != UserRole.all.name.toLowerCase()){
+        filterString(spinnerController.text);
+      }else
+      {
+        emit(UsersSuccess(users: users));
+      }
     }catch(exception){
       emit(UsersError(message: exception.toString()));
     }
@@ -26,5 +33,17 @@ class UsersCubit extends Cubit<UsersState>{
     }catch(exception){
       emit(UsersDeletionError(message: exception.toString(), users: _users));
     }
+  }
+  void filter(UserRole role){
+    if(role == UserRole.all){
+      emit(UsersSuccess(users: _users));
+      return;
+    }
+    List<UserModel> filteredUsers = _users.where((user) => user.role.toLowerCase() == role.name.toLowerCase()).toList();
+    emit(UsersSuccess(users: filteredUsers));
+  }
+  void filterString(String role){
+    List<UserModel> filteredUsers = _users.where((user) => user.role.toLowerCase() == role.toLowerCase()).toList();
+    emit(UsersSuccess(users: filteredUsers));
   }
 }

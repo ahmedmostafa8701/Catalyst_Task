@@ -1,3 +1,4 @@
+import 'package:cataylst_task/features/user/domain/models/user_roles.dart';
 import 'package:cataylst_task/features/user/presentation/viewmodel/users_cubit.dart';
 import 'package:cataylst_task/features/user/presentation/viewmodel/users_state.dart';
 import 'package:cataylst_task/features/user/presentation/widgets/users_list_view.dart';
@@ -15,7 +16,39 @@ class UsersPage extends StatelessWidget {
     BlocProvider.of<UsersCubit>(context).fetchUsers();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Users'),
+        title: Row(
+          children: [
+            const Text('Users'),
+            const Spacer(),
+            DropdownMenu(
+              initialSelection: UserRole.all,
+              controller: BlocProvider.of<UsersCubit>(context).spinnerController,
+
+              onSelected: (role){
+                BlocProvider.of<UsersCubit>(context).filter(role??UserRole.all);
+              },
+              dropdownMenuEntries: const [
+                DropdownMenuEntry(
+                  label: 'All',
+                  value: UserRole.all,
+                ),
+                DropdownMenuEntry(
+                  label: 'Owner',
+                  value: UserRole.owner,
+                ),
+                DropdownMenuEntry(
+                  label: 'Admin',
+                  value: UserRole.admin,
+                ),
+                DropdownMenuEntry(
+                  label: 'Client',
+                  value: UserRole.client,
+                ),
+              ],
+            ),
+            Spacer(),
+          ],
+        ),
         actions: [
           IconButton(
             icon: const Icon(
