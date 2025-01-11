@@ -1,7 +1,9 @@
 import 'package:cataylst_task/features/user/domain/models/user_model.dart';
+import 'package:cataylst_task/features/user/presentation/viewmodel/users_cubit.dart';
 import 'package:cataylst_task/features/user/presentation/widgets/user_card.dart';
 import 'package:cataylst_task/utils/contants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UsersListView extends StatelessWidget {
   List<UserModel> users;
@@ -14,7 +16,9 @@ class UsersListView extends StatelessWidget {
       child: ListView.separated(
         itemCount: users.length,
         itemBuilder: (context, index) {
-          return UserCard(userModel: users[index], onDelete: (){}, onEdit: (){},onEditSuccess: (userModel){},);
+          return UserCard(userModel: users[index], onDelete: (){
+            BlocProvider.of<UsersCubit>(context).deleteUser(users[index]);
+          }, onEdit: (){});
         },
         separatorBuilder: (context, index) {
           return SizedBox(

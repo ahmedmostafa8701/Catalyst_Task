@@ -9,19 +9,18 @@ class UserCard extends StatelessWidget {
   UserModel userModel;
   void Function() onDelete;
   void Function() onEdit;
-  void Function(UserModel userModel) onEditSuccess;
 
   UserCard(
       {required this.userModel,
       required this.onDelete,
       required this.onEdit,
-      required this.onEditSuccess,
       super.key});
 
   @override
   Widget build(BuildContext context) {
     var textTheme = Theme.of(context).textTheme;
     var colorScheme = Theme.of(context).colorScheme;
+    var textWidth = 230.w;
     return CustomCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,13 +51,23 @@ class UserCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    userModel.name,
-                    style: textTheme.headlineSmall
-                        ?.copyWith(fontWeight: FontWeight.bold),
+                  SizedBox(
+                    width: textWidth,
+                    child: Text(
+                      userModel.name,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: textTheme.headlineSmall
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
                   ),
-                  Text(userModel.email,
-                      style: textTheme.bodyLarge?.copyWith(color: Colors.grey)),
+                  SizedBox(
+                    width: textWidth,
+                    child: Text(userModel.email,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: textTheme.bodyLarge?.copyWith(color: Colors.grey)),
+                  ),
                 ],
               ),
               const Spacer(),
@@ -86,15 +95,20 @@ class UserCard extends StatelessWidget {
                 Icons.phone,
                 color: colorScheme.primary,
               ),
-              Text(userModel.phone,
-                  style: textTheme.bodyLarge
-                      ?.copyWith(fontWeight: FontWeight.bold)),
+              SizedBox(
+                width: textWidth,
+                child: Text(userModel.phone,
+                    maxLines: 1,
+                    style: textTheme.bodyLarge
+                        ?.copyWith(fontWeight: FontWeight.bold)),
+              ),
             ],
           ),
           Center(
               child: Text(userModel.role,
+                  maxLines: 1,
                   style: textTheme.titleLarge
-                      ?.copyWith(fontWeight: FontWeight.bold))),
+                      ?.copyWith(fontWeight: FontWeight.bold),)),
         ],
       ),
     );
