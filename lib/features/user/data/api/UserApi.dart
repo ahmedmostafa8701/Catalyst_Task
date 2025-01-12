@@ -29,6 +29,6 @@ class UserApi extends UserRepo {
 
   @override
   Future<void> updateUser(UserModel user) async {
-    await dio.post('_path/${user.id}', data: user.toJson());
+    await dio.post('$_path/${user.id}', data: user.toJson());
   }
 }

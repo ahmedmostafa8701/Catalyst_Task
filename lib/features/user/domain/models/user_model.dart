@@ -28,12 +28,11 @@ class UserModel {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'name': name,
       'email': email,
       'phone': phone,
-      'role': role,
-      'profile_image': profileImage,
+      'role': role
+      // 'profile_image': profileImage,
     };
   }
 

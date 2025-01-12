@@ -8,6 +8,7 @@ class UsersCubit extends Cubit<UsersState>{
   final UserRepo _userRepo;
   List<UserModel> _users = [];
   TextEditingController spinnerController = TextEditingController();
+  bool isFetched = false;
   UsersCubit(this._userRepo): super(UsersInitial());
   void fetchUsers() async{
     emit(UsersLoading());

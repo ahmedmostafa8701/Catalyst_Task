@@ -20,7 +20,10 @@ class UsersPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var colorScheme = Theme.of(context).colorScheme;
-    BlocProvider.of<UsersCubit>(context).fetchUsers();
+    if(!BlocProvider.of<UsersCubit>(context).isFetched){
+      BlocProvider.of<UsersCubit>(context).fetchUsers();
+      BlocProvider.of<UsersCubit>(context).isFetched = true;
+    }
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -58,6 +61,7 @@ class UsersPage extends StatelessWidget {
               onPosting: (userModel) {
                 BlocProvider.of<UsersCubit>(context).addUser(userModel);
               },
+              userModel: UserModel(id: 0, name: '', email: '', phone: '', profileImage: '', role: UserRole.client.name),
             ),
           );
         },
