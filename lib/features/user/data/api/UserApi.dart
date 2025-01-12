@@ -10,10 +10,9 @@ class UserApi extends UserRepo {
   UserApi(this.dio);
 
   @override
-  Future<int> addUser(UserModel user) async {
-    var response = await dio.post(_path,
+  Future<void> addUser(UserModel user) async {
+    await dio.post(_path,
         data: user.toJson());
-    return response.data['user']['id'];
   }
 
   @override

@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cataylst_task/core/custom_card.dart';
+import 'package:cataylst_task/core/presentation/widgets/custom_card.dart';
 import 'package:cataylst_task/features/user/domain/models/user_model.dart';
 import 'package:cataylst_task/utils/contants.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +42,10 @@ class UserCard extends StatelessWidget {
                 imageUrl: userModel.profileImage,
                 placeholder: (context, url) =>
                     const CircularProgressIndicator(),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
+                errorWidget: (context, url, error) => Container(
+                  decoration: const BoxDecoration(
+                      shape: BoxShape.rectangle, color: Colors.black), child: const Icon(Icons.person, color: Colors.white,),
+                ),
                 width: 50.w,
                 height: 50.h,
               ),
@@ -57,7 +60,7 @@ class UserCard extends StatelessWidget {
                       userModel.name,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
-                      style: textTheme.headlineSmall
+                      style: textTheme.titleSmall
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                   ),
@@ -66,7 +69,8 @@ class UserCard extends StatelessWidget {
                     child: Text(userModel.email,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
-                        style: textTheme.bodyLarge?.copyWith(color: Colors.grey)),
+                        style:
+                            textTheme.bodyLarge?.copyWith(color: Colors.grey)),
                   ),
                 ],
               ),
@@ -105,10 +109,11 @@ class UserCard extends StatelessWidget {
             ],
           ),
           Center(
-              child: Text(userModel.role,
-                  maxLines: 1,
-                  style: textTheme.titleLarge
-                      ?.copyWith(fontWeight: FontWeight.bold),)),
+              child: Text(
+            userModel.role,
+            maxLines: 1,
+            style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+          )),
         ],
       ),
     );

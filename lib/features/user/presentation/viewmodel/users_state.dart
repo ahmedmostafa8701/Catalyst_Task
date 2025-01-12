@@ -15,4 +15,14 @@ class UsersDeletionError extends UsersState{
   final List<UserModel> users;
   UsersDeletionError({required this.message, required this.users});
 }
+class UsersAddingError extends UsersState{
+  final String message;
+  final List<UserModel> users;
+  UsersAddingError({required this.message, required this.users});
+}
+class UsersUpdatingError extends UsersState{
+  final String message;
+  final List<UserModel> users;
+  UsersUpdatingError({required this.message, required this.users});
+}
 class UsersInitial extends UsersState{}

@@ -24,6 +24,26 @@ class UsersCubit extends Cubit<UsersState>{
       emit(UsersError(message: exception.toString()));
     }
   }
+  void addUser(UserModel userModel) async{
+    emit(UsersLoading());
+    try{
+      await _userRepo.addUser(userModel);
+      _users.add(userModel);
+      emit(UsersSuccess(users: _users));
+    }catch(exception){
+      emit(UsersAddingError(message: exception.toString(), users: _users));
+    }
+  }
+  void updateUser(UserModel userModel) async{
+    emit(UsersLoading());
+    try{
+      await _userRepo.updateUser(userModel);
+      _users[_users.indexWhere((element) => element.id == userModel.id)] = userModel;
+      emit(UsersSuccess(users: _users));
+    }catch(exception){
+      emit(UsersUpdatingError(message: exception.toString(), users: _users));
+    }
+  }
   void deleteUser(UserModel userModel) async{
     emit(UsersLoading());
     try{

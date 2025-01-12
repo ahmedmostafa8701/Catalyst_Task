@@ -13,3 +13,7 @@ var colorScheme = const ColorScheme(
   onError: Color(0xFFE6E8E6), // Light Gray for text/icons on error background
   brightness: Brightness.light, // Adjust if you want a dark theme
 );
+
+const Color light = Color(0xFFF6F6F6);
+const Color darkGrey = Color(0xFF939393);
+const Color grey = Color(0xFFE0E0E0);

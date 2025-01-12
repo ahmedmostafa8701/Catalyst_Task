@@ -1,9 +1,16 @@
+import 'package:cataylst_task/core/presentation/widgets/custom_elevated_button.dart';
+import 'package:cataylst_task/features/user/domain/models/user_model.dart';
 import 'package:cataylst_task/features/user/domain/models/user_roles.dart';
+import 'package:cataylst_task/features/user/presentation/pages/users_page.dart';
 import 'package:cataylst_task/features/user/presentation/viewmodel/users_cubit.dart';
 import 'package:cataylst_task/features/user/presentation/viewmodel/users_state.dart';
+import 'package:cataylst_task/features/user/presentation/widgets/user_dialog.dart';
+import 'package:cataylst_task/features/user/presentation/widgets/user_role_spinner.dart';
 import 'package:cataylst_task/features/user/presentation/widgets/users_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 class UsersPage extends StatelessWidget {
   const UsersPage({super.key});
@@ -20,31 +27,11 @@ class UsersPage extends StatelessWidget {
           children: [
             const Text('Users'),
             const Spacer(),
-            DropdownMenu(
-              initialSelection: UserRole.all,
-              controller: BlocProvider.of<UsersCubit>(context).spinnerController,
-
-              onSelected: (role){
-                BlocProvider.of<UsersCubit>(context).filter(role??UserRole.all);
+            UserRoleSpinner(
+              onSelected: (role) {
+                BlocProvider.of<UsersCubit>(context)
+                    .filter(role ?? UserRole.all);
               },
-              dropdownMenuEntries: const [
-                DropdownMenuEntry(
-                  label: 'All',
-                  value: UserRole.all,
-                ),
-                DropdownMenuEntry(
-                  label: 'Owner',
-                  value: UserRole.owner,
-                ),
-                DropdownMenuEntry(
-                  label: 'Admin',
-                  value: UserRole.admin,
-                ),
-                DropdownMenuEntry(
-                  label: 'Client',
-                  value: UserRole.client,
-                ),
-              ],
             ),
             Spacer(),
           ],
@@ -64,6 +51,15 @@ class UsersPage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Add your onPressed function here
+          showDialog(
+            context: context,
+            barrierDismissible: true,
+            builder: (context) => UserDialog(
+              onPosting: (userModel) {
+                BlocProvider.of<UsersCubit>(context).addUser(userModel);
+              },
+            ),
+          );
         },
         shape: const CircleBorder(),
         child: const Icon(Icons.add),
@@ -82,6 +78,10 @@ class UsersPage extends StatelessWidget {
             ));
           } else if (state is UsersDeletionError) {
             return UsersListView(users: state.users);
+          }else if (state is UsersAddingError) {
+            return UsersListView(users: state.users);
+          }else if (state is UsersUpdatingError) {
+            return UsersListView(users: state.users);
           } else {
             return const Center(child: Text('No users found'));
           }
@@ -92,6 +92,29 @@ class UsersPage extends StatelessWidget {
               SnackBar(
                 content: Text(
                   "failed to delete because: ${state.message}",
+                  style: TextStyle(color: colorScheme.error),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            );
+          } else if (state is UsersAddingError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  "failed to add because: ${state.message}",
+                  style: TextStyle(color: colorScheme.error),
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            );
+          }
+          else if (state is UsersUpdatingError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  "failed to update because: ${state.message}",
                   style: TextStyle(color: colorScheme.error),
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
