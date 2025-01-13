@@ -1,7 +1,5 @@
-import 'package:cataylst_task/core/presentation/widgets/custom_elevated_button.dart';
 import 'package:cataylst_task/features/user/domain/models/user_model.dart';
 import 'package:cataylst_task/features/user/domain/models/user_roles.dart';
-import 'package:cataylst_task/features/user/presentation/pages/users_page.dart';
 import 'package:cataylst_task/features/user/presentation/viewmodel/users_cubit.dart';
 import 'package:cataylst_task/features/user/presentation/viewmodel/users_state.dart';
 import 'package:cataylst_task/features/user/presentation/widgets/user_dialog.dart';
@@ -10,7 +8,6 @@ import 'package:cataylst_task/features/user/presentation/widgets/users_list_view
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 
 class UsersPage extends StatelessWidget {
   const UsersPage({super.key});
@@ -36,14 +33,13 @@ class UsersPage extends StatelessWidget {
                     .filter(role ?? UserRole.all);
               },
             ),
-            Spacer(),
+            const Spacer(),
           ],
         ),
         actions: [
           IconButton(
             icon: const Icon(
               Icons.refresh,
-              color: Colors.white,
             ),
             onPressed: () {
               BlocProvider.of<UsersCubit>(context).fetchUsers();
@@ -77,7 +73,7 @@ class UsersPage extends StatelessWidget {
           } else if (state is UsersError) {
             return Center(
                 child: Text(
-              state.message,
+              'Failed to fetch users',
               style: TextStyle(color: colorScheme.error),
             ));
           } else if (state is UsersDeletionError) {
@@ -95,7 +91,7 @@ class UsersPage extends StatelessWidget {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
-                  "failed to delete because: ${state.message}",
+                  "failed to delete",
                   style: TextStyle(color: colorScheme.error),
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
@@ -106,7 +102,7 @@ class UsersPage extends StatelessWidget {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
-                  "failed to add because: ${state.message}",
+                  "failed to add",
                   style: TextStyle(color: colorScheme.error),
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
@@ -118,7 +114,7 @@ class UsersPage extends StatelessWidget {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
-                  "failed to update because: ${state.message}",
+                  "failed to update}",
                   style: TextStyle(color: colorScheme.error),
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,

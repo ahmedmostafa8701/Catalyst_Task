@@ -10,10 +10,6 @@ var theme = ThemeData(
   textTheme: textTheme,
   appBarTheme: AppBarTheme(
     backgroundColor: colorScheme.primary,
-    elevation: 1,
-    titleTextStyle: TextStyle(
-      fontSize: 20.sp,
-      fontWeight: FontWeight.w600,
-    ),
+    foregroundColor: Colors.white,
   ),
 );

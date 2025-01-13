@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UserCard extends StatelessWidget {
-  UserModel userModel;
-  void Function() onDelete;
-  void Function() onEdit;
+  final UserModel userModel;
+  final void Function() onDelete;
+  final void Function() onEdit;
 
-  UserCard(
+  const UserCard(
       {required this.userModel,
       required this.onDelete,
       required this.onEdit,
@@ -44,7 +44,11 @@ class UserCard extends StatelessWidget {
                     const CircularProgressIndicator(),
                 errorWidget: (context, url, error) => Container(
                   decoration: const BoxDecoration(
-                      shape: BoxShape.rectangle, color: Colors.black), child: const Icon(Icons.person, color: Colors.white,),
+                      shape: BoxShape.rectangle, color: Colors.black),
+                  child: const Icon(
+                    Icons.person,
+                    color: Colors.white,
+                  ),
                 ),
                 width: 50.w,
                 height: 50.h,
@@ -58,23 +62,16 @@ class UserCard extends StatelessWidget {
                     width: textWidth,
                     child: Text(
                       userModel.name,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: textTheme.titleSmall
-                          ?.copyWith(fontWeight: FontWeight.bold),
+                      overflow: TextOverflow.ellipsis, maxLines: 1, style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
                     ),
                   ),
                   SizedBox(
                     width: textWidth,
                     child: Text(userModel.email,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        style:
-                            textTheme.bodyLarge?.copyWith(color: Colors.grey)),
+                      overflow: TextOverflow.ellipsis, maxLines: 1, style: textTheme.titleSmall?.copyWith(color: Colors.grey)),
                   ),
                 ],
               ),
-              const Spacer(),
               GestureDetector(
                 onTap: onDelete,
                 child: Icon(
@@ -103,17 +100,20 @@ class UserCard extends StatelessWidget {
                 width: textWidth,
                 child: Text(userModel.phone,
                     maxLines: 1,
-                    style: textTheme.bodyLarge
+                    style: textTheme.titleSmall
                         ?.copyWith(fontWeight: FontWeight.bold)),
               ),
             ],
           ),
           Center(
-              child: Text(
-            userModel.role,
-            maxLines: 1,
-            style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-          )),
+            child: Text(
+              userModel.role.replaceFirst(
+                  userModel.role[0], userModel.role[0].toUpperCase()),
+              maxLines: 1,
+              style:
+                  textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+            ),
+          ),
         ],
       ),
     );

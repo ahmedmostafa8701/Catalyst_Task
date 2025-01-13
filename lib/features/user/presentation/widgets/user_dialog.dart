@@ -10,15 +10,19 @@ class UserDialog extends StatelessWidget {
   final UserModel userModel;
   final bool newInstance;
   final void Function(UserModel userModel) onPosting;
-
-  const UserDialog(
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final phoneController = TextEditingController();
+  UserDialog(
       {super.key,
       required this.userModel,
       this.newInstance = true,
       required this.onPosting});
-
   @override
   Widget build(BuildContext context) {
+    nameController.text = userModel.name;
+    emailController.text = userModel.email;
+    phoneController.text = userModel.phone;
     String actionName = newInstance ? 'Add' : 'Update';
     return AlertDialog(
       actionsOverflowAlignment: OverflowBarAlignment.start,
@@ -35,19 +39,13 @@ class UserDialog extends StatelessWidget {
               decoration: const InputDecoration(
                 hintText: 'User name',
               ),
-              onChanged: (value) {
-                userModel.name = value;
-              },
-              controller: TextEditingController(text: userModel.name),
+              controller: nameController,
             ),
             TextField(
               decoration: const InputDecoration(
                 hintText: 'Email',
               ),
-              onChanged: (value) {
-                userModel.email = value;
-              },
-              controller: TextEditingController(text: userModel.email),
+              controller: emailController,
             ),
             const Text("Phone Number"),
             IntlPhoneField(
@@ -60,7 +58,7 @@ class UserDialog extends StatelessWidget {
               onChanged: (phone) {
                 userModel.phone = phone.completeNumber;
               },
-              controller: TextEditingController(text: userModel.phone),
+              controller: phoneController,
             ),
             const Text("Role"),
             UserRoleSpinner(
@@ -72,6 +70,7 @@ class UserDialog extends StatelessWidget {
               },
               roles: const [UserRole.admin, UserRole.client, UserRole.owner],
               initialRole: UserRole.values.firstWhere((element) => element.name == userModel.role),
+              color: Colors.black,
             ),
           ],
         ),
@@ -79,6 +78,8 @@ class UserDialog extends StatelessWidget {
       actions: [
         CustomElevatedButton(
           onPressed: () {
+            userModel.name = nameController.text;
+            userModel.email = emailController.text;
             if(userModel.name.isNotEmpty == true && userModel.email.isNotEmpty == true && userModel.phone.isNotEmpty == true && userModel.role.isNotEmpty == true)
             {
               onPosting(userModel);
